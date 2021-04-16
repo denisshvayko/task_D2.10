@@ -7,7 +7,23 @@ sentry_sdk.init(
    dsn="https://876d118550ae4980968d23c2304c8949@o571003.ingest.sentry.io/5723290",
    integrations=[BottleIntegration()]
 )
-
+@route("/")
+def index():
+    html = """
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Проверка запросов и логирования через sentry</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>попробуй маршрут /success который вернет запрос - Статус 200, все ок!</h1>
+      <h1>попробуй маршрут /fail который вернет запрос - Который вернет 500 Error!</h1>
+    </div>
+  </body>
+</html>
+"""
+    return html
 
 @route("/success")
 def index():
