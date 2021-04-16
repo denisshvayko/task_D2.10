@@ -1,38 +1,35 @@
 import os
-import random
-
 from bottle import route, run
+import sentry_sdk
+from sentry_sdk.integrations.bottle import BottleIntegration
+
+sentry_sdk.init(
+   dsn="https://876d118550ae4980968d23c2304c8949@o571003.ingest.sentry.io/5723290",
+   integrations=[BottleIntegration()]
+)
 
 
-def generate_message():
-    return "Сегодня уже не вчера, ещё не завтра"
-
-
-@route("/")
+@route("/success")
 def index():
     html = """
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Генератор утверждений</title>
+    <title>Проверка запроса</title>
   </head>
   <body>
     <div class="container">
-      <h1>Коллеги, добрый день!</h1>
-      <p>{}</p>
-      <p class="small">Чтобы обновить это заявление, обновите страницу</p>
+      <h1>Статус 200, все ок!</h1>
     </div>
   </body>
 </html>
-""".format(
-        generate_message()
-    )
+"""
     return html
 
 
-@route("/api/roll/<some_id:int>")
-def example_api_response(some_id):
-    return {"requested_id": some_id, "random_number": random.randrange(some_id)}
+@route("/fail")
+def index():
+    raise RuntimeError("There is an error!")
 
 
 if os.environ.get("APP_LOCATION") == "heroku":
