@@ -2,9 +2,9 @@ import os
 from bottle import route, run
 import sentry_sdk
 from sentry_sdk.integrations.bottle import BottleIntegration
-
+from config import sentry_token
 sentry_sdk.init(
-   dsn="https://876d118550ae4980968d23c2304c8949@o571003.ingest.sentry.io/5723290",
+   dsn=sentry_token,
    integrations=[BottleIntegration()]
 )
 @route("/")
